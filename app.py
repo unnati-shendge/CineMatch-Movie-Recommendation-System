@@ -64,9 +64,6 @@ with open("movies.pickle",'rb') as m:
 
 similarities=joblib.load("similarity.joblib")
 
-st.write("Similarity matrix shape:", similarities.shape)
-st.write("Similarity matrix type:", type(similarities))
-
 
 
 @st.cache_data(ttl=86400)
@@ -117,7 +114,7 @@ def recommend(movie):
 
     recommendations=similarities[movie_index]
 
-    movie_list=sorted(enumerate(recommendations),reverse=True,key=lambda x:x[1])[1:4]
+    movie_list=sorted(enumerate(recommendations),reverse=True,key=lambda x:x[1])[1:6]
 
     recommended_movies=[]
     
@@ -143,12 +140,12 @@ name_movie=st.selectbox(
 
 
 if st.button("✨ Find Similar Movies", use_container_width=True):
-    st.write("Debug: Recommendation started")
+    
     results=recommend(name_movie)
-    st.write("Debug: Recommendation completed")
+    
     st.subheader("### The Recommended Movies")
 
-    cols=st.columns(3)
+    cols=st.columns(5)
 
     for col, movie in zip(cols,results):
         with col:
