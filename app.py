@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 import sklearn
@@ -67,7 +68,7 @@ similarities=joblib.load("similarity.joblib")
 
 @st.cache_data(ttl=86400)
 def fetch_movie_details(movie_id):
-    api_key = st.secrets["TMDB_API_KEY"]
+    api_key = st.secrets["TMDB_API_KEY"] or or os.getenv("TMDB_API_KEY")
     url = f"https://api.themoviedb.org/3/movie/{movie_id}"
 
     try:
