@@ -64,6 +64,9 @@ with open("movies.pickle",'rb') as m:
 
 similarities=joblib.load("similarity.joblib")
 
+st.write("Similarity matrix shape:", similarities.shape)
+st.write("Similarity matrix type:", type(similarities))
+
 
 
 @st.cache_data(ttl=86400)
