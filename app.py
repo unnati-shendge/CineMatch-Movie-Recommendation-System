@@ -129,7 +129,9 @@ name_movie=st.selectbox(
 
 
 if st.button("✨ Find Similar Movies", use_container_width=True):
+    st.write("Debug: Recommendation started")
     results=recommend(name_movie)
+    st.write("Debug: Recommendation completed")
     st.subheader("### The Recommended Movies")
 
     cols=st.columns(5)
