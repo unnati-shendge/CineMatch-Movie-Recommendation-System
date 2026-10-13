@@ -68,7 +68,18 @@ similarities=joblib.load("similarity.joblib")
 
 @st.cache_data(ttl=86400)
 def fetch_movie_details(movie_id):
-    api_key = st.secrets["TMDB_API_KEY"] or os.getenv("TMDB_API_KEY")
+    api_key = os.getenv("TMDB_API_KEY")
+
+    if not api_key:
+        try:
+            api_key = st.secrets["TMDB_API_KEY"]
+        except Exception:
+            api_key = None
+
+    if not api_key:
+        st.error("TMDB API key is missing. Check your Render Environment settings.")
+        return None
+
     url = f"https://api.themoviedb.org/3/movie/{movie_id}"
 
     try:
@@ -103,7 +114,7 @@ def recommend(movie):
 
     recommendations=similarities[movie_index]
 
-    movie_list=sorted(enumerate(recommendations),reverse=True,key=lambda x:x[1])[1:6]
+    movie_list=sorted(enumerate(recommendations),reverse=True,key=lambda x:x[1])[1:4]
 
     recommended_movies=[]
     
@@ -134,7 +145,7 @@ if st.button("✨ Find Similar Movies", use_container_width=True):
     st.write("Debug: Recommendation completed")
     st.subheader("### The Recommended Movies")
 
-    cols=st.columns(5)
+    cols=st.columns(3)
 
     for col, movie in zip(cols,results):
         with col:
